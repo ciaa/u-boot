@@ -331,18 +331,6 @@ int board_init(void)
 	 */
 	iomux_init();
 
-#ifdef CONFIG_SYS_FLASH_CS
-	/* Set timing for flash */
-	st = &LPC_EMC->st[CONFIG_SYS_FLASH_CS];
-	st->cfg = CONFIG_SYS_FLASH_CFG;
-	st->we = CONFIG_SYS_FLASH_WE;
-	st->oe = CONFIG_SYS_FLASH_OE;
-	st->rd = CONFIG_SYS_FLASH_RD;
-	st->page  = CONFIG_SYS_FLASH_PAGE;
-	st->wr = CONFIG_SYS_FLASH_WR;
-	st->ta = CONFIG_SYS_FLASH_TA;
-#endif
-
 	return 0;
 }
 
@@ -471,16 +459,3 @@ int board_eth_init(bd_t *bis)
 {
 	return lpc18xx_eth_driver_init(bis);
 }
-
-#ifdef CONFIG_FLASH_CFI_LEGACY
-ulong board_flash_get_legacy (ulong base, int banknum, flash_info_t *info)
-{
-	if (banknum == 0) {	/* non-CFI flash */
-		info->portwidth = FLASH_CFI_16BIT;
-		info->chipwidth = FLASH_CFI_BY16;
-		info->interface = FLASH_CFI_X16;
-		return 1;
-	} else
-		return 0;
-}
-#endif

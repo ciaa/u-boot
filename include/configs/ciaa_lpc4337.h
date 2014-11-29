@@ -133,41 +133,7 @@
 /* Use the CPU_CLOCK/2 for EMC */
 #define CONFIG_LPC18XX_EMC_HALFCPU
 
-/* Uncomment the following line to disable Flash support */
 #define CONFIG_SYS_NO_FLASH
-#ifndef CONFIG_SYS_NO_FLASH
-/*
- * Configuration of the external Flash memory
- */
-#define CONFIG_SYS_FLASH_CS		1
-#define CONFIG_SYS_FLASH_CFG		0x81 /* 16 bit, Byte Lane enabled */
-#define CONFIG_SYS_FLASH_WE		(1 - 1)		/* Minimum is enough */
-#define CONFIG_SYS_FLASH_OE		0		/* Minimum is enough */
-#define CONFIG_SYS_FLASH_RD		(15 - 1)	/* 70ns at 204MHz */
-#define CONFIG_SYS_FLASH_PAGE		(15 - 1)	/* 70ns at 204MHz */
-#define CONFIG_SYS_FLASH_WR		0x1f		/* Maximum */
-#define CONFIG_SYS_FLASH_TA		0x0f		/* Maximum */
-
-#define CONFIG_SYS_FLASH_BANK1_BASE	0x1D000000 /* CS1 */
-
-#define CONFIG_SYS_FLASH_CFI		1
-#define CONFIG_FLASH_CFI_DRIVER		1
-#define CONFIG_FLASH_CFI_LEGACY		1
-#define CONFIG_SYS_FLASH_LEGACY_2Mx16	1
-#define CONFIG_SYS_FLASH_CFI_WIDTH	FLASH_CFI_16BIT
-#define CONFIG_SYS_FLASH_BANKS_LIST	{ CONFIG_SYS_FLASH_BANK1_BASE }
-#define CONFIG_SYS_MAX_FLASH_BANKS	1
-#define CONFIG_SYS_MAX_FLASH_SECT	1024
-
-#define CONFIG_ENV_IS_IN_FLASH
-#define CONFIG_ENV_SIZE			(4 * 1024)
-#define CONFIG_ENV_ADDR \
-	(CONFIG_SYS_FLASH_BANK1_BASE + 128 * 1024)
-#define CONFIG_ENV_OVERWRITE		1
-
-#endif
-
-/* Uncomment the following line to enable the SPIFI interface */
 #define CONFIG_SPIFI
 #define CONFIG_SPIFI_BASE		0x14000000
 #define CONFIG_SPIFI_SIZE		(16*1024*1024)
@@ -272,9 +238,6 @@
 #undef CONFIG_CMD_NFS
 #undef CONFIG_CMD_SOURCE
 #undef CONFIG_CMD_XIMG
-#if defined(CONFIG_SPI_FLASH)
-#define CONFIG_CMD_SF
-#endif
 
 /* To save memory disable long help */
 #undef CONFIG_SYS_LONGHELP
