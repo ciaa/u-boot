@@ -249,8 +249,8 @@
 #define CONFIG_BOOTDELAY		3
 #define CONFIG_ZERO_BOOTDELAY_CHECK
 #define CONFIG_HOSTNAME			ciaa-nxp
-#define CONFIG_BOOTARGS			"console=ttyS0,115200 earlyprintk clk_ignore_unused"
-#define CONFIG_BOOTCOMMAND		"run netboot"
+#define CONFIG_BOOTARGS			"console=ttyS0,115200 earlyprintk"
+#define CONFIG_BOOTCOMMAND		"run flashboot"
 
 /* Ensure that the board-specific misc_init_r() gets invoked. */
 #define CONFIG_MISC_INIT_R
@@ -259,23 +259,18 @@
  * Short-cuts to some useful commands (macros)
  */
 #define CONFIG_EXTRA_ENV_SETTINGS				\
-	"loadaddr=0x28000000\0"					\
-	"addip=setenv bootargs ${bootargs} ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}:eth0:off\0"				\
-	"flashaddr=0x14001000\0"				\
-	"flashboot=run addip;bootm ${flashaddr}\0"		\
-	"netboot=tftp ${image};bootm\0"				\
-	"ethaddr=C0:B1:3C:88:78:93\0"				\
-	"ipaddr=192.168.0.103\0"					\
-	"serverip=192.168.0.45\0"					\
-	"image=uImage-ciaa-nxp\0"				\
-	"netboot=tftp ${image};run addip;bootm\0"		\
-	"update=tftp ${image};"					\
-	"prot off ${flashaddr} +${filesize};"			\
-	"era ${flashaddr} +${filesize};"			\
-	"cp.b ${loadaddr} ${flashaddr} ${filesize}\0"		\
 	"uboot_image=u-boot.bin\0"				\
-	"uboot_update=tftp ${uboot_image};"			\
-	"cptf 1A000000 ${loadaddr} ${filesize}\0"
+	"image=uImage-ciaa-nxp\0"				\
+	"loadaddr=0x28000000\0"					\
+	"addip=setenv bootargs ${bootargs} ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}:${hostname}:eth0:off\0" \
+	"flashaddr=0x14000000\0"				\
+	"flashboot=run addip;bootm ${flashaddr}\0"		\
+	"ipaddr=192.168.0.103\0"				\
+	"serverip=192.168.0.45\0"				\
+	"ethaddr=C0:B1:3C:88:78:93\0"                           \
+	"netboot=tftp ${image};run addip;bootm\0"		\
+	"update=tftp ${image};cp.b ${loadaddr} ${flashaddr} ${filesize}\0" \
+	"uboot_update=tftp ${uboot_image};cptf 0x1a000000 ${loadaddr} ${filesize}\0"
 
 /* Linux kernel boot parameters configuration */
 #define CONFIG_SETUP_MEMORY_TAGS
