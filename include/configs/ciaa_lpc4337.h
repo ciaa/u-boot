@@ -149,7 +149,6 @@
  * little-endian mode.)
  */
 #define CONFIG_SYS_NS16550_REG_SIZE	(-4)
-#define CONFIG_SYS_NS16550_CLK		clock_get(CLOCK_UART3)
 #define CONFIG_CONS_INDEX		1
 
 /*
@@ -160,13 +159,20 @@
  */
 
 /*
- * We choose the USART3 because it's the one that's powered
+ * We could choose the USART3 because it's the one that's powered
  * by the host. USART2 is available, but through the FTDI
  * chip so it's powered by the board.
+ *
+ * However, most mortals will prefer to connect just one cable (the USB)
+ * and get console from there.
  */
+#define CIAA_CONSOLE_ON_USART2
+
+#ifdef CIAA_CONSOLE_ON_USART3
 #define CONFIG_SYS_NS16550_COM1		0x400c2000
+#define CONFIG_SYS_NS16550_CLK		clock_get(CLOCK_UART3)
 /*
- * Pin configuration for UART
+ * Pin configuration for USART3
  */
 #define CONFIG_LPC18XX_UART_TX_IO_GROUP		2       /* P2 */
 #define CONFIG_LPC18XX_UART_TX_IO_PIN		3       /* P2.3 = USART3 TXD */
@@ -174,6 +180,21 @@
 #define CONFIG_LPC18XX_UART_RX_IO_GROUP		2       /* P2 */
 #define CONFIG_LPC18XX_UART_RX_IO_PIN		4       /* P2.4 = USART3 RXD */
 #define CONFIG_LPC18XX_UART_RX_IO_FUNC		2
+#endif
+
+#ifdef CIAA_CONSOLE_ON_USART2
+#define CONFIG_SYS_NS16550_COM1		0x400c1000
+#define CONFIG_SYS_NS16550_CLK		clock_get(CLOCK_UART2)
+/*
+ * Pin configuration for USART2
+ */
+#define CONFIG_LPC18XX_UART_TX_IO_GROUP		7       /* P7 */
+#define CONFIG_LPC18XX_UART_TX_IO_PIN		1       /* P7.1 = USART2 TXD */
+#define CONFIG_LPC18XX_UART_TX_IO_FUNC		6
+#define CONFIG_LPC18XX_UART_RX_IO_GROUP		7       /* P7 */
+#define CONFIG_LPC18XX_UART_RX_IO_PIN		2       /* P7.2 = USART2 RXD */
+#define CONFIG_LPC18XX_UART_RX_IO_FUNC		6
+#endif
 
 #define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200 }
